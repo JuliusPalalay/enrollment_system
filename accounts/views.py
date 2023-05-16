@@ -1,7 +1,7 @@
 from multiprocessing import AuthenticationError
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import StudentSignUpForm
+from .forms import StudentSignUpForm, EnrollmentForm
 from django.http import Http404, JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -58,7 +58,7 @@ def enrollment_list(request):
 
 @csrf_exempt
 @api_view(['GET'])
-def student_list(request):
+def accounts(request):
     """
     List all students or create a new student.
     """
@@ -108,3 +108,35 @@ def subject_view(request, pk=None):
             raise Http404
         subject.delete()
         return JsonResponse({'detail': 'Deleted successfully'}, status=204)
+    
+# def enrollment_list(request):
+#     enrollments = Enrollment.objects.all()
+#     return render(request, 'enrollment_list', {'enrollments': enrollments})
+
+# def enrollment_create(request):
+#     if request.method == 'POST':
+#         form = EnrollmentForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('enrollment_list')
+#     else:
+#         form = EnrollmentForm()
+#     return render(request, 'enrollment_form', {'form': form})
+
+# def enrollment_update(request, pk):
+#     enrollment = Enrollment.objects.get(pk=pk)
+#     if request.method == 'POST':
+#         form = EnrollmentForm(request.POST, instance=enrollment)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('enrollment_list')
+#     else:
+#         form = EnrollmentForm(instance=enrollment)
+#     return render(request, 'enrollment_form', {'form': form})
+
+# def enrollment_delete(request, pk):
+#     enrollment = Enrollment.objects.get(pk=pk)
+#     if request.method == 'POST':
+#         enrollment.delete()
+#         return redirect('enrollment_list')
+#     return render(request, 'enrollment_confirm_delete', {'enrollment': enrollment})
